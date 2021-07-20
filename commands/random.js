@@ -1,5 +1,5 @@
 require('../ExtendedMessage'); /* for inline reply */
-
+const numOfYears = 3; // furthest we want to go back ~3 years
 
 module.exports = {
     name: 'random',
@@ -7,7 +7,8 @@ module.exports = {
     execute(message, args) {
         let messages = message.channel.messages;
 
-        let min = message.createdTimestamp - 1514741178000; // furthest we want to go back ~3 years
+        
+        let min = message.createdTimestamp - (1420070400000 + (31556926000 * numOfYears)); 
         let today = message.createdTimestamp - 1420070400000; // Start of today
         let rand = Math.floor(Math.random() * (today - min) + min);
         

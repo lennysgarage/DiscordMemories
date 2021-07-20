@@ -1,4 +1,5 @@
-require('../ExtendedMessage');
+require('../ExtendedMessage'); /* for inline reply */
+
 
 module.exports = {
     name: 'random',
@@ -7,7 +8,7 @@ module.exports = {
         let messages = message.channel.messages;
 
         let min = message.createdTimestamp - 1514741178000; // furthest we want to go back ~3 years
-        let today = message.createdTimestamp - 1420070400000 - 86400000; // Yesterday
+        let today = message.createdTimestamp - 1420070400000; // Start of today
         let rand = Math.floor(Math.random() * (today - min) + min);
         
         let randomDate = shift(rand, 22);
@@ -20,13 +21,12 @@ module.exports = {
         .then(collectionOfMessages => collectionOfMessages
             .random()
             .inlineReply('Check this out!'))
-        .catch(() => {
-            console.error;
+        .catch((err) => {
+            console.error('No message found');
             message.inlineReply("Can't find a memory ;(")
         })
     }
 }
-
 
 
 function shift(number, shift) {

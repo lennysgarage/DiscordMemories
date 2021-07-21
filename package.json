@@ -1,5 +1,32 @@
 {
   "dependencies": {
     "discord.js": "^12.5.3"
-  }
+  },
+  "name": "discordmemories",
+  "description": "A simple bot to look at past memories",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": "16.*",
+    "npm": "7.*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lennysgarage/DiscordMemories.git"
+  },
+  "keywords": [
+    "heroku",
+    "discord.js"
+  ],
+  "author": "lennysgarage",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lennysgarage/DiscordMemories/issues"
+  },
+  "homepage": "https://github.com/lennysgarage/DiscordMemories#readme"
 }

@@ -23,7 +23,7 @@ module.exports = {
             .random()
             .inlineReply('Check this out!'))
         .catch((err) => {
-            console.error('No message found');
+            console.error(`No message found for ${message.author.tag}.\n`, err);
             message.inlineReply("Can't find a memory ;(")
         })
     }

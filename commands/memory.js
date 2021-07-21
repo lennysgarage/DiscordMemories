@@ -5,6 +5,7 @@ const discordEpochPlusOneYear = 1451627326000;
 module.exports = {
     name: 'memory',
     description: 'Grab a memory from the past',
+    usage: '[random]',
     execute(message, args) {
         let messages = message.channel.messages;
                 
@@ -24,7 +25,7 @@ module.exports = {
             .random()
             .inlineReply('Hey checkout this memory from a year ago!'))
         .catch((err) => {
-            console.error('No message found');
+            console.error(`No message found for ${message.author.tag}.\n`, err);
             message.inlineReply("Can't find a memory ;(");
         });
     }

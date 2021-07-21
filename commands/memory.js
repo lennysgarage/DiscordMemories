@@ -1,4 +1,4 @@
-require('../ExtendedMessage'); /* for inline reply */
+require('../utils/ExtendedMessage'); /* for inline reply */
 const discordEpochPlusOneYear = 1451627326000;
 
 

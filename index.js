@@ -17,6 +17,9 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
+    client.user.setActivity(`${prefix}help`, { type: 'WATCHING' })
+    .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+    .catch(console.error);
     console.log('Ready!');
 });
 

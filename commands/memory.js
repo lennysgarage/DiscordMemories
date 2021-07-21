@@ -1,6 +1,6 @@
 require('../utils/ExtendedMessage'); /* for inline reply */
 const discordEpochPlusOneYear = 1451627326000;
-
+/* 1420070400000 + 31556926000*/
 
 module.exports = {
     name: 'memory',
@@ -9,7 +9,13 @@ module.exports = {
     execute(message, args) {
         let messages = message.channel.messages;
                 
+        /* Here we are trying to make an artifical discord snowflake.
+         * The timestamp in a snowflake is (snowflake >> 22) + 1420070400000
+         * Since we are trying to create a snowflake from a year ago we need to grab the (current time) - discordEpochPlusOneYear
+         * Bit shifting this to the right 22 times gives us an artifical snowflake that only has a proper timestamp
+        /* For deeper information on snowflakes: https://discord.com/developers/docs/reference#snowflakes */
         let dateAfter = shift((message.createdTimestamp - discordEpochPlusOneYear), 22);
+        
         
         let random = false;
         if(args[0] === "random") {

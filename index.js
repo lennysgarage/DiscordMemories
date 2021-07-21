@@ -52,6 +52,6 @@ client.login(token);
 */
 
 
-/* If using Heroku */
+/* If using .env file */
 client.login(process.env.BOT_TOKEN);
 

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
+const aws = require('aws-sdk');
 
 const client = new Discord.Client({
     allowedMentions: {
@@ -45,4 +46,14 @@ client.on('message', message => {
 
 });
 
+/* Default way to start bot 
 client.login(token);
+*/
+
+
+/* If using Heroku */
+let s3 = new aws.S3({
+    botToken: process.env.BOT_TOKEN
+});
+client.login(s3.botToken);
+

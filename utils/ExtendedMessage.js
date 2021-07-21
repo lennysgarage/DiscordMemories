@@ -1,3 +1,8 @@
+/*
+Code courtesy of https://gist.github.com/Allvaa/0320f06ee793dc88e4e209d3ea9f6256 
+Allows for inline replys with version 12 of discord.js
+*/
+
 const { APIMessage, Structures } = require("discord.js");
 
 class ExtAPIMessage extends APIMessage {

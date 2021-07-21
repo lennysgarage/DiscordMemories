@@ -1,4 +1,4 @@
-require('../ExtendedMessage'); /* for inline reply */
+require('../utils/ExtendedMessage'); /* for inline reply */
 const numOfYears = 3; // furthest we want to go back ~3 years
 
 module.exports = {

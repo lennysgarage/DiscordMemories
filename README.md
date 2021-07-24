@@ -10,5 +10,6 @@
 * ``memory [random]``:
     * Showcases a memory from the user a year ago
     * Showcases a memory from any user a year ago if query is 'random'
-*  ``random``:
+*  ``random [channel]``:
     * Showcases a random memory from any time going back as far as 3 years (random.js to change)     
+    * Can specify channel via name or id

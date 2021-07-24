@@ -1,6 +1,7 @@
 require('../utils/ExtendedMessage'); /* for inline reply */
 const numOfYears = 3; // furthest we want to go back ~3 years
 // Do not go further than the creation of discord (untested)
+const { grabChannel } = require('../utils/grabChannel');
 
 module.exports = {
     name: 'random',
@@ -10,13 +11,8 @@ module.exports = {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */
         if (args[0]){
-            const msgChannel = message.guild.channels.cache.find(channel => channel.name === args[0] || channel.id === args[0]);
-            if ( msgChannel !== undefined ){
-                messages = msgChannel.messages;
-            } else {
-                message.inlineReply("Invalid channel");
-                return;
-            }
+            messages = grabChannel(message, args[0]);
+            if (messages === undefined) return;
         }
 
         /* Here we are trying to make an artifical discord snowflake.
@@ -39,9 +35,10 @@ module.exports = {
             after: randomDate
         })
         .then(collectionOfMessages => { 
+            const responseMsg = "Check this out"
             // Cannot inline reply to message in a different channel (discord limitation atm)
-            if(args[0]) message.channel.send(`Check this out! ${collectionOfMessages.random().url}`);
-            else collectionOfMessages.random().inlineReply('Check this out!'); 
+            if(args[0]) message.channel.send(`${responseMsg} ${collectionOfMessages.random().url}`);
+            else collectionOfMessages.random().inlineReply(`${responseMsg}`); 
         })
         .catch((err) => {
             console.error(`No message found for ${message.author.tag}.\n`, err);

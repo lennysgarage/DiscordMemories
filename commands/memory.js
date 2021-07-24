@@ -1,13 +1,19 @@
 require('../utils/ExtendedMessage'); /* for inline reply */
 const discordEpochPlusOneYear = 1451627326000;
 /* 1420070400000 + 31556926000*/
+const { grabChannel } = require('../utils/grabChannel');
 
 module.exports = {
     name: 'memory',
     description: 'Grab a memory from the past',
-    usage: '[random]',
+    usage: '[channel]',
     execute(message, args) {
         let messages = message.channel.messages;
+        /* Can specify channel by name or id */
+        if (args[0]){
+            messages = grabChannel(message, args[0]);
+            if (messages === undefined) return;
+        }
                 
         /* Here we are trying to make an artifical discord snowflake.
          * The timestamp in a snowflake is (snowflake >> 22) + 1420070400000
@@ -16,20 +22,17 @@ module.exports = {
         /* For deeper information on snowflakes: https://discord.com/developers/docs/reference#snowflakes */
         let dateAfter = shift((message.createdTimestamp - discordEpochPlusOneYear), 22);
         
-        
-        let random = false;
-        if(args[0] === "random") {
-            random = true;
-        }
 
         messages.fetch({
              limit: 10,
              after: dateAfter
             })
-        .then(collectionOfMessages => collectionOfMessages
-            .filter(m => m.author.id === message.author.id || random)
-            .random()
-            .inlineReply('Hey checkout this memory from a year ago!'))
+        .then(collectionOfMessages => {collectionOfMessages
+            const responseMsg = "Hey checkout this memory from a year ago!"
+            // Cannot inline reply to message in a different channel (discord limitation atm)
+            if(args[0]) message.channel.send(`${responseMsg} ${collectionOfMessages.random().url}`);
+            else collectionOfMessages.random().inlineReply(`${responseMsg}`); 
+        })
         .catch((err) => {
             console.error(`No message found for ${message.author.tag}.\n`, err);
             message.inlineReply("Can't find a memory ;(");

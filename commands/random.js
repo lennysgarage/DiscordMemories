@@ -5,8 +5,19 @@ const numOfYears = 3; // furthest we want to go back ~3 years
 module.exports = {
     name: 'random',
     description: 'Grab any random message from the past',
+    'usage': '[channel]',
     execute(message, args) {
         let messages = message.channel.messages;
+        /* Can specify channel by name or id */
+        if (args[0]){
+            const msgChannel = message.guild.channels.cache.find(channel => channel.name === args[0] || channel.id === args[0]);
+            if ( msgChannel !== undefined ){
+                messages = msgChannel.messages;
+            } else {
+                message.inlineReply("Invalid channel");
+                return;
+            }
+        }
 
         /* Here we are trying to make an artifical discord snowflake.
          * The timestamp in a snowflake is (snowflake >> 22) + 1420070400000
@@ -27,13 +38,15 @@ module.exports = {
             limit: 10,
             after: randomDate
         })
-        .then(collectionOfMessages => collectionOfMessages
-            .random()
-            .inlineReply('Check this out!'))
+        .then(collectionOfMessages => { 
+            // Cannot inline reply to message in a different channel (discord limitation atm)
+            if(args[0]) message.channel.send(`Check this out! ${collectionOfMessages.random().url}`);
+            else collectionOfMessages.random().inlineReply('Check this out!'); 
+        })
         .catch((err) => {
             console.error(`No message found for ${message.author.tag}.\n`, err);
-            message.inlineReply("Can't find a memory ;(")
-        })
+            message.inlineReply("Can't find a memory ;(");
+        });
     }
 }
 

@@ -30,8 +30,16 @@ module.exports = {
         .then(collectionOfMessages => {collectionOfMessages
             const responseMsg = "Hey checkout this memory from a year ago!"
             // Cannot inline reply to message in a different channel (discord limitation atm)
-            if(args[0]) message.channel.send(`${responseMsg} ${collectionOfMessages.random().url}`);
-            else collectionOfMessages.random().inlineReply(`${responseMsg}`); 
+            if(args[0]) {
+                message.channel.send({
+                    embed: {
+                        title: responseMsg,
+                        url: collectionOfMessages.random().url
+                    }
+                });
+            }
+            else 
+                collectionOfMessages.random().inlineReply(`${responseMsg}`); 
         })
         .catch((err) => {
             console.error(`No message found for ${message.author.tag}.\n`, err);

@@ -2,6 +2,7 @@ require('../utils/ExtendedMessage'); /* for inline reply */
 const discordEpochPlusOneYear = 1451627326000;
 /* 1420070400000 + 31556926000*/
 const { grabChannel } = require('../utils/grabChannel');
+const { shift } = require('../utils/snowflakeUtil');
 
 module.exports = {
     name: 'memory',
@@ -46,9 +47,4 @@ module.exports = {
             message.inlineReply("Can't find a memory ;(");
         });
     }
-}
-
-
-function shift(number, shift) {
-    return number * Math.pow(2, shift);
 }

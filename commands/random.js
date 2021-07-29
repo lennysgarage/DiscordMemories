@@ -2,6 +2,7 @@ require('../utils/ExtendedMessage'); /* for inline reply */
 const numOfYears = 3; // furthest we want to go back ~3 years
 // Do not go further than the creation of discord (untested)
 const { grabChannel } = require('../utils/grabChannel');
+const { shift } = require('../utils/snowflakeUtil');
 
 module.exports = {
     name: 'random',
@@ -53,9 +54,4 @@ module.exports = {
             message.inlineReply("Can't find a memory ;(");
         });
     }
-}
-
-
-function shift(number, shift) {
-    return number * Math.pow(2, shift);
 }

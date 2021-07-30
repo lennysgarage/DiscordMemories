@@ -23,6 +23,7 @@ module.exports = {
          * Taking the current time - discord epoch gives us the proper time frame to represent todays date
          * Throwing these two values into a random generator between the two values gives us a random timestamp to look for a message
          * Bit shifting this to the right 22 times gives us an artifical snowflake that only has a proper timestamp
+         * (timestamp_ms - DISCORD_EPOCH) << 22 (timestamp to snowflake)
         /* For deeper information on snowflakes: https://discord.com/developers/docs/reference#snowflakes */
         let min = message.createdTimestamp - (1420070400000 + (31556926000 * numOfYears)); 
         let today = message.createdTimestamp - 1420070400000; // Start of today

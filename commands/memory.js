@@ -19,16 +19,19 @@ module.exports = {
         /* Can enter a date or just how long ago */
         if (args[1]) {
             if (!isNaN(args[1])) numOfYears = parseFloat(args[1]);
-            else numOfYears = ((new Date().getTime() - new Date(args[1]).getTime())/31556926000).toFixed(2);
-            // We grab the current time subtracting the specified time divided by how many miliseconds in a year
+            else numOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(args[1]).getTime())/31536000000).toFixed(6); 
+            // 6 Digits allow for better accuracy when dealing with miliseconds
+            // We grab the current time subtracting the number of miliseconds currently in the day to get the earliest moment
+            // We take this time divided by how many miliseconds in a year
         }
+
                 
         /* Here we are trying to make an artifical discord snowflake.
          * The timestamp in a snowflake is (snowflake >> 22) + 1420070400000
-         * Since we are trying to create a snowflake from a year ago we need to grab the (current time) - discordEpoch + # of years
+         * Since we are trying to create a snowflake from a year ago we need to grab the (time at the start of message's day) - discordEpoch + # of years
          * Bit shifting this to the right 22 times gives us an artifical snowflake that only has a proper timestamp
         /* For deeper information on snowflakes: https://discord.com/developers/docs/reference#snowflakes */
-        let dateAfter = shift((message.createdTimestamp - 1420070400000 - (31556926000 * numOfYears)), 22);
+        let dateAfter = shift((message.createdTimestamp - (message.createdTimestamp % 86400000) - 1420070400000 - (31536000000 * numOfYears)), 22);
         
 
         messages.fetch({

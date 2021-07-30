@@ -13,7 +13,7 @@ module.exports = {
         /* Can specify channel by name or id */
         if (args[0]){
             messages = grabChannel(message, args[0]);
-            if (messages === undefined) return;
+            if (messages === undefined) return; // Don't want to fetch a nonexistent channel
         }
 
         /* Here we are trying to make an artifical discord snowflake.
@@ -36,7 +36,7 @@ module.exports = {
             after: randomDate
         })
         .then(collectionOfMessages => { 
-            const responseMsg = "Check this out"
+            const responseMsg = "Check this out";
             // Cannot inline reply to message in a different channel (discord limitation atm)
             if(args[0]) {
                 message.channel.send({

@@ -11,7 +11,7 @@ module.exports = {
         /* Can specify channel by name or id */
         if (args[0]){
             messages = grabChannel(message, args[0]);
-            if (messages === undefined) return;
+            if (messages === undefined) return; // Don't want to fetch a nonexistent channel
         }
 
         let numOfYears = 1; // Default behaviour
@@ -20,6 +20,7 @@ module.exports = {
         if (args[1]) {
             if (!isNaN(args[1])) numOfYears = parseFloat(args[1]);
             else numOfYears = ((new Date().getTime() - new Date(args[1]).getTime())/31556926000).toFixed(2);
+            // We grab the current time subtracting the specified time divided by how many miliseconds in a year
         }
                 
         /* Here we are trying to make an artifical discord snowflake.

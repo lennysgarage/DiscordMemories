@@ -5,7 +5,7 @@ const { shift } = require('../utils/snowflakeUtil');
 module.exports = {
     name: 'memory',
     description: 'Grab a memory from the past',
-    usage: '[channel] [date|numOfYears]',
+    usage: '[channel|ID] [date|numOfYears]',
     execute(message, args) {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */

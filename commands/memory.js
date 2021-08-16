@@ -1,6 +1,7 @@
 require('../utils/ExtendedMessage'); /* for inline reply */
 const { grabChannel } = require('../utils/grabChannel');
 const { shift } = require('../utils/snowflakeUtil');
+const DISCORD_EPOCH = 1420070400000;
 
 module.exports = {
     name: 'memory',
@@ -19,23 +20,23 @@ module.exports = {
         /* Can enter a date or just how long ago */
         if (args[1]) {
             if (!isNaN(args[1])) numOfYears = parseFloat(args[1]);
-            else numOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(args[1]).getTime())/31536000000).toFixed(8); 
-            // 6 Digits allow for better accuracy when dealing with miliseconds
+            else numOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(args[1]).getTime())/31535900000).toFixed(8); 
+            // 8 Digits allow for better accuracy when dealing with miliseconds
             // We grab the current time subtracting the number of miliseconds currently in the day to get the earliest moment
-            // We take this time divided by how many miliseconds in a year
+            // We take this time divided by roughly how many miliseconds in a year
         }
 
                 
         /* Here we are trying to make an artifical discord snowflake.
-         * The timestamp in a snowflake is (snowflake >> 22) + 1420070400000
-         * Since we are trying to create a snowflake from a year ago we need to grab the (time at the start of message's day) - discordEpoch + # of years
-         * Since unix time uses UTC, I've configured the miliseconds in a year calculation to compensate roughly for the 4 hour difference between UTC and EST
-         * If you want to just use UTC change (31530960000 * numOfYears) to (31536000000 * numOfYears)
-         * Bit shifting this to the right 22 times gives us an artifical snowflake that only has a proper timestamp
          * (timestamp_ms - DISCORD_EPOCH) << 22 (timestamp to snowflake)
+         * Since we are trying to create a snowflake from possibly multiple years ago we use the biggest unit, a year
+         * Leaving us with a general formula: (time at the start of message's day) - discordEpoch - # of years
+         * Since discord time uses UTC, as a quick workaround for EST, we take the DISCORD_EPOCH subtracting 5hours
+         * In the future, we can customize this by just subtracting or adding an hour * a variable with some input
+         * Bit shifting this to the right 22 times gives us an artifical snowflake that only has a proper timestamp
         /* For deeper information on snowflakes: https://discord.com/developers/docs/reference#snowflakes */
-        let dateAfter = shift((message.createdTimestamp - (message.createdTimestamp % 86400000) - 1420070400000 - (31530960000 * numOfYears)), 22);
-        
+        let dateAfter = shift((message.createdTimestamp - (message.createdTimestamp % 86400000) - (DISCORD_EPOCH - 18000000) - (31535900000 * numOfYears)), 22);
+
         messages.fetch({
              limit: 10,
              after: dateAfter

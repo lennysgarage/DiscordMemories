@@ -3,7 +3,7 @@
 
 ##### Default command prefix: ==
 ---
-**Functionality** - July 22, 2021
+**Functionality** - August 16, 2021
 * ``help [command]``:
     * Displays a list of all commands
     * Displays information on a specific command

@@ -14,3 +14,7 @@
 *  ``random [channel|ID]``:
     * Showcases a random memory from any time going back as far as 3 years (random.js to change)     
     * Can specify channel via name or id
+---
+**Requirements** 
+* node ^16.6.*
+* Discord.js v13

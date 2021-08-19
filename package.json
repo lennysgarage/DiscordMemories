@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.1.0",
     "dotenv": "^10.0.0"
   },
   "name": "discordmemories",
@@ -8,13 +8,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "engines": {
-    "node": "16.*",
+    "node": "^16.6.2",
     "npm": "7.*"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node -r dotenv/config index.js"
   },
   "repository": {
     "type": "git",

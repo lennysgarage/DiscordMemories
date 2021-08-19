@@ -1,16 +1,13 @@
-require('dotenv').config()
 const fs = require('fs');
-const Discord = require('discord.js');
+const { Client, Collection, Intents } = require('discord.js');
 const { prefix, token } = require('./config.json');
 
 
-const client = new Discord.Client({
-    allowedMentions: {
-        // set repliedUser value to `false` to turn off the mention by default
-        repliedUser: false
-    }
+const client = new Client({ 
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGES],
+    repliedUser: false 
 });
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -19,14 +16,13 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-    client.user.setActivity(`${prefix}help`, { type: 'WATCHING' })
-    .then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
-    .catch(console.error);
+    client.user.setActivity(`${prefix}help`, { type: 'WATCHING' });
+    console.log(`Currently servicing ${client.guilds.cache.size} guilds`);
     console.log('Ready!');
 });
 
 
-client.on('message', message => {
+client.on('messageCreate', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);

@@ -3,6 +3,7 @@
 
 ### Introduction
 Memories is a discord bot to easily look at past messages in your discord server.
+Similar functionality to Snapchat's Memories feature!
 
 ##### Default command prefix: ==
 ---

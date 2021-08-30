@@ -37,12 +37,18 @@ module.exports = {
         /* For deeper information on snowflakes: https://discord.com/developers/docs/reference#snowflakes */
         let dateAfter = shift((message.createdTimestamp - (message.createdTimestamp % 86400000) - (DISCORD_EPOCH - 18000000) - (31535900000 * numOfYears)), 22);
 
+        let todayPlusOne = shift(message.createdTimestamp - (message.createdTimestamp % 86400000) + 86400000 - DISCORD_EPOCH, 22);
+        if (dateAfter < 0 || dateAfter > todayPlusOne) {
+            message.reply({ content: "Invalid date", allowedMentions: { repliedUser: false } });
+            return;
+        } 
+
         messages.fetch({
              limit: 10,
              after: dateAfter
             })
         .then(collectionOfMessages => {collectionOfMessages
-            const responseMsg = numOfYears > 1 ? `Hey checkout this memory from ${numOfYears} years ago!` : 
+            const responseMsg = (numOfYears > 1 || numOfYears < 1) ? `Hey checkout this memory from ${numOfYears} years ago!` : 
             "Hey checkout this memory from a year ago!";
             // Cannot inline reply to message in a different channel (discord limitation atm)
             if(args[0]) {

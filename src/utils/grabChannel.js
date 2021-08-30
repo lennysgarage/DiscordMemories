@@ -6,7 +6,7 @@ module.exports = {
         if ( msgChannel !== undefined ){
             return msgChannel.messages;
         } else {
-            message.inlineReply("Invalid channel");
+            message.reply({ content: "Channel does not exist", allowedMentions: { repliedUser: false } });
             return;
         }
     }

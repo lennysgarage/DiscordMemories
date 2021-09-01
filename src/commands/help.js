@@ -4,7 +4,6 @@ const { messageEmbed, MessageEmbed } = require('discord.js');
 module.exports = {
     name: 'help',
     description: 'List of all commands',
-    aliases: ['commands, info'],
     usage: ['[command]', '', 'memory', 'random'],
     usage_desc: ['- Brings up the help menu', '- Brings up the main help menu', '- Brings up the help menu for memory', '- Brings up the help menu for random'],
     execute(message, args) {

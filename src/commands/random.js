@@ -7,7 +7,8 @@ const { shift } = require('../utils/snowflakeUtil');
 module.exports = {
     name: 'random',
     description: 'Grab any random message from the past',
-    'usage': '[channel | ID]',
+    usage: ['[channel | ID]', '', 'general'],
+    usage_desc: ['- Showcases a random memory from any user', '- Showcases a random memory', '- Showcases a random memory from general'],
     execute(message, args) {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */

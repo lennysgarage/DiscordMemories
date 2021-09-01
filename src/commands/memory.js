@@ -6,7 +6,9 @@ const DISCORD_EPOCH = 1420070400000;
 module.exports = {
     name: 'memory',
     description: 'Grab a memory from the past',
-    usage: '[channel | ID] [date | numOfYears]',
+    usage: ['[channel | ID] [date | numOfYears]', '', 'general', 'general 2019-05-05', 'general 3.14159'],
+    usage_desc: ['- Showcases a memory from any user', '- Showcases a memory from a year ago', '- Showcases a memory from the general channel a year ago',
+    '- Showcases a memory from general around May 5th, 2019', '- Showcases a memory from general ~pi years ago'],
     execute(message, args) {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */

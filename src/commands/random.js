@@ -9,7 +9,7 @@ module.exports = {
     description: 'Grab any random message from the past',
     usage: ['[channel | ID]', '', 'general'],
     usage_desc: ['- Showcases a random memory from any user', '- Showcases a random memory', '- Showcases a random memory from general'],
-    execute(message, args) {
+    async execute(message, args) {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */
         if (args[0]){
@@ -31,26 +31,18 @@ module.exports = {
         
         let randomDate = shift(rand, 22);
         
-        
-        messages.fetch({
-            limit: 10,
-            after: randomDate
-        })
-        .then(collectionOfMessages => { 
+        try {
+            const collectionOfMessages = await messages.fetch({ limit: 10, after: randomDate });
             const responseMsg = "Check this out";
-            // Cannot inline reply to message in a different channel (discord limitation atm)
-            if(args[0]) {
+            if (args[0]) {
                 const embed = new MessageEmbed().setTitle(responseMsg).setURL(collectionOfMessages.random().url);
-                message.channel.send({
-                    embeds: [embed]
-                });
+                await message.channel.send({ embeds: [embed] });
+            } else {
+                await collectionOfMessages.random().reply({ content: `${responseMsg}`, allowedMentions: { repliedUser: false } });
             }
-            else
-                collectionOfMessages.random().reply({ content: `${responseMsg}`, allowedMentions: { repliedUser: false } }); 
-        })
-        .catch((err) => {
+        } catch(err) {
             console.error(`No message found for ${message.author.tag}.\n`, err);
-            message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });
-        });
+            await message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });
+        }
     }
 }

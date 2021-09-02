@@ -9,7 +9,7 @@ module.exports = {
     usage: ['[channel | ID] [date | numOfYears]', '', 'general', 'general 2019-05-05', 'general 3.14159'],
     usage_desc: ['- Showcases a memory from any user', '- Showcases a memory from a year ago', '- Showcases a memory from the general channel a year ago',
     '- Showcases a memory from general around May 5th, 2019', '- Showcases a memory from general ~pi years ago'],
-    execute(message, args) {
+    async execute(message, args) {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */
         if (args[0]){
@@ -40,31 +40,24 @@ module.exports = {
         let dateAfter = shift((message.createdTimestamp - (message.createdTimestamp % 86400000) - (DISCORD_EPOCH - 18000000) - (31535900000 * numOfYears)), 22);
 
         let todayPlusOne = shift(message.createdTimestamp - (message.createdTimestamp % 86400000) + 86400000 - DISCORD_EPOCH, 22);
-        if (dateAfter < 0 || dateAfter > todayPlusOne) {
-            message.reply({ content: "Invalid date", allowedMentions: { repliedUser: false } });
+        if (dateAfter < 0 || dateAfter > todayPlusOne || isNaN(dateAfter) ) {
+            await message.reply({ content: "Invalid date", allowedMentions: { repliedUser: false } });
             return;
         } 
 
-        messages.fetch({
-             limit: 10,
-             after: dateAfter
-            })
-        .then(collectionOfMessages => {collectionOfMessages
+        try {
+            const collectionOfMessages = await messages.fetch({ limit: 10, after: dateAfter });
             const responseMsg = (numOfYears > 1 || numOfYears < 1) ? `Hey checkout this memory from ${numOfYears} years ago!` : 
             "Hey checkout this memory from a year ago!";
-            // Cannot inline reply to message in a different channel (discord limitation atm)
-            if(args[0]) {
+            if (args[0]) {
                 const embed = new MessageEmbed().setTitle(responseMsg).setURL(collectionOfMessages.random().url);
-                message.channel.send({
-                    embeds: [embed]
-                });
+                await message.channel.send({ embeds: [embed] });
+            } else {
+                await collectionOfMessages.random().reply({ content: `${responseMsg}`, allowedMentions: { repliedUser: false } });
             }
-            else 
-                collectionOfMessages.random().reply({ content: `${responseMsg}`, allowedMentions: { repliedUser: false } }); 
-        })
-        .catch((err) => {
+        } catch(err) {
             console.error(`No message found for ${message.author.tag}.\n`, err);
-            message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });
-        });
+            await message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });
+        }
     }
 }

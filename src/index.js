@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { prefix, token } = require('./config.json');
+const { AutoPoster } = require('topgg-autoposter');
 
 
 const client = new Client({ 
@@ -8,8 +9,15 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGES],
     repliedUser: false 
 });
-client.commands = new Collection();
 
+// Comment this out if not posting bot on top.gg
+const ap = AutoPoster(process.env.TOPGG_TOKEN, client);
+
+ap.on('posted', () => {
+    console.log('Posted stats to Top.gg!');
+})
+
+client.commands = new Collection();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);

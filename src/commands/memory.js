@@ -21,7 +21,7 @@ module.exports = {
         /* Can specify when to find a memory from */
         /* Can enter a date or just how long ago */
         if (args[1]) {
-            if (!isNaN(args[1])) numOfYears = parseFloat(args[1]);
+            if (!isNaN(args[1])) numOfYears = parseFloat(args[1]).toFixed(8);
             else numOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(args[1]).getTime())/31535900000).toFixed(8); 
             // 8 Digits allow for better accuracy when dealing with miliseconds
             // We grab the current time subtracting the number of miliseconds currently in the day to get the earliest moment
@@ -40,7 +40,7 @@ module.exports = {
         let dateAfter = shift((message.createdTimestamp - (message.createdTimestamp % 86400000) - (DISCORD_EPOCH - 18000000) - (31535900000 * numOfYears)), 22);
 
         let todayPlusOne = shift(message.createdTimestamp - (message.createdTimestamp % 86400000) + 86400000 - DISCORD_EPOCH, 22);
-        if (dateAfter < 0 || dateAfter > todayPlusOne || isNaN(dateAfter) ) {
+        if (numOfYears < 0 || dateAfter < 0 || dateAfter > todayPlusOne || isNaN(dateAfter) ) {
             await message.reply({ content: "Invalid date", allowedMentions: { repliedUser: false } });
             return;
         } 

@@ -1,12 +1,12 @@
 const { prefix } = require('../config.json');
-const { messageEmbed, MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'help',
     description: 'List of all commands',
     usage: ['[command]', '', 'memory', 'random'],
     usage_desc: ['- Brings up the help menu', '- Brings up the main help menu', '- Brings up the help menu for memory', '- Brings up the help menu for random'],
-    execute(message, args) {
+    async execute(message, args) {
         const { commands } = message.client;
 
         if (!args.length) {
@@ -31,7 +31,7 @@ module.exports = {
             .setTimestamp()
             .setFooter(`${prefix}help [command] to get info on a specific command`, 'https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp');
                 
-            return message.channel.send({ embeds: [helpEmbed] });
+            return await message.channel.send({ embeds: [helpEmbed] });
         }
 
 
@@ -39,7 +39,7 @@ module.exports = {
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
         if (!command) {
-            return message.reply({ content: 'that\'s not a valid command!', allowedMentions: { repliedUser: false } });
+            return await message.reply({ content: 'that\'s not a valid command!', allowedMentions: { repliedUser: false } });
         } else if (command) {
             const data = command.usage;
             const data_desc = command.usage_desc;
@@ -52,12 +52,7 @@ module.exports = {
                 commandEmbed.addField(`\`\`\`${command.name} ${usage}\`\`\``, data_desc[i]);
                 });
             
-            return message.channel.send({ embeds: [commandEmbed] });;
+            return await message.channel.send({ embeds: [commandEmbed] });;
         }
-
-        
-
-
-
     }
 }

@@ -31,11 +31,11 @@ client.once('ready', () => {
         }
             
         console.log(`Currently servicing ${client.guilds.cache.size} guilds & ${memberCount} users`);
-    }, 900000);
+    }, 600000);
 });
 
 
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -51,7 +51,7 @@ client.on('messageCreate', message => {
         command.execute(message, args);
     } catch (error) {
         console.error(error);
-        message.reply({ content: 'there was an error trying to execute that command!', allowedMentions: { repliedUser: true } });
+        await message.reply({ content: 'there was an error trying to execute that command!', allowedMentions: { repliedUser: true } });
     }
 
 });

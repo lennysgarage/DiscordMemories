@@ -15,7 +15,7 @@ module.exports = {
             .setAuthor('Help Menu', 'https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp', 'https://github.com/lennysgarage/DiscordMemories')
             .setThumbnail('https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp')
             .addFields(
-                { name: 'Prefix: ```==```', value:'[Invite Me!](https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot)'},
+                { name: 'Prefix: ```==```', value:'[Invite Me!](https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot) | [Vote Here!](https://top.gg/bot/867469054931501078/vote)'},
                 { name: 'Memory Command', value: '\u200b' },
                 { name: '```memory [channel|ID] [date|numOfYears]```', value: '- Showcases a memory from any user' },
                 { name: '```memory```', value: '- Showcases a memory from a year ago' },

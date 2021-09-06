@@ -11,6 +11,7 @@ const client = new Client({
 });
 
 // Comment this out if not posting bot on top.gg
+// Comment out when testing
 const ap = AutoPoster(process.env.TOPGG_TOKEN, client);
 
 ap.on('posted', () => {
@@ -40,6 +41,15 @@ client.once('ready', () => {
             
         console.log(`Currently servicing ${client.guilds.cache.size} guilds & ${memberCount} users`);
     }, 600000);
+});
+
+
+client.on('guildCreate', guild => {
+    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+});
+
+client.on('guildDelete', guild => {
+    console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
 });
 
 

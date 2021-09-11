@@ -32,7 +32,7 @@ module.exports = {
                 {
                     name: '❯ Bot:',
                     value: `
-                        • Bot Latency: \`\`${message.createdTimestamp - Date.now()} ms\`\`
+                        • Bot Latency: \`\`${Date.now() - message.createdTimestamp} ms\`\`
                         • Uptime: \`\`${new Date(process.uptime() * 1000).toISOString().substr(11, 8)}\`\`
                         • Ram: \`\`${(process.memoryUsage.rss() * 0.000001).toFixed(2)} MB\`\`
                         • Version: \`\`${pkg.version}\`\`

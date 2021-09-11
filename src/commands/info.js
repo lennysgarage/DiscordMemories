@@ -5,7 +5,7 @@ module.exports = {
     name: 'info',
     description: 'Info on bot',
     usage: [''],
-    usage_desc: [''],
+    usage_desc: ['Info/stats on bot'],
     async execute(message, args) {
         const infoEmbed = {
             color: '#0099ff',

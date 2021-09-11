@@ -27,8 +27,9 @@ module.exports = {
                 { name: '```random [channel|ID]```', value: '- Showcases a random memory from any user' },
                 { name: '```random```', value: '- Showcases a random memory' },
                 { name: '```random general```', value: '- Showcases a random memory from general' },
+                { name: '\u200b', value: '\u200B' },
                 { name: 'Invite bot', value: `${prefix}invite`, inline: true },
-                { name: 'Info', value: `${prefix}info`, inline: true },
+                { name: 'Info/Stats', value: `${prefix}info`, inline: true },
             )
             .setTimestamp()
             .setFooter(`${prefix}help [command] to get info on a specific command`, message.client.user.avatarURL());
@@ -51,7 +52,7 @@ module.exports = {
                 .setTimestamp()
                 .setFooter(`Prefix: ${prefix}`);
             data.forEach((usage, i) => {
-                commandEmbed.addField(`\`\`\`${command.name} ${usage}\`\`\``, data_desc[i]);
+                commandEmbed.addField(` \`\`${command.name} ${usage}\`\` `, data_desc[i]);
                 });
             
             return await message.channel.send({ embeds: [commandEmbed] });;

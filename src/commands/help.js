@@ -1,4 +1,4 @@
-const { prefix } = require('../config.json');
+const { prefix, inviteLink, voteLink, supportServer } = require('../config.json');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -12,10 +12,10 @@ module.exports = {
         if (!args.length) {
             const helpEmbed = new MessageEmbed()
             .setColor('#0099ff')
-            .setAuthor('Help Menu', 'https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp', 'https://github.com/lennysgarage/DiscordMemories')
-            .setThumbnail('https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp')
+            .setAuthor('Help Menu', message.client.user.avatarURL(), 'https://github.com/lennysgarage/DiscordMemories')
+            .setThumbnail(message.client.user.avatarURL())
             .addFields(
-                { name: 'Prefix: ```==```', value:'[Invite Me!](https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot) | [Vote Here!](https://top.gg/bot/867469054931501078/vote)'},
+                { name: 'Prefix: ```==```', value:`[Invite Me!](${inviteLink}) | [Vote Here!](${voteLink}) | [Support Server](${supportServer})`},
                 { name: 'Memory Command', value: '\u200b' },
                 { name: '```memory [channel|ID] [date|numOfYears]```', value: '- Showcases a memory from any user' },
                 { name: '```memory```', value: '- Showcases a memory from a year ago' },
@@ -27,9 +27,11 @@ module.exports = {
                 { name: '```random [channel|ID]```', value: '- Showcases a random memory from any user' },
                 { name: '```random```', value: '- Showcases a random memory' },
                 { name: '```random general```', value: '- Showcases a random memory from general' },
+                { name: 'Invite bot', value: `${prefix}invite`, inline: true },
+                { name: 'Info', value: `${prefix}info`, inline: true },
             )
             .setTimestamp()
-            .setFooter(`${prefix}help [command] to get info on a specific command`, 'https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp');
+            .setFooter(`${prefix}help [command] to get info on a specific command`, message.client.user.avatarURL());
                 
             return await message.channel.send({ embeds: [helpEmbed] });
         }
@@ -45,7 +47,7 @@ module.exports = {
             const data_desc = command.usage_desc;
             const commandEmbed = new MessageEmbed()
                 .setColor('#0099ff')
-                .setAuthor(`${command.name} Command`, 'https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp', 'https://github.com/lennysgarage/DiscordMemories')
+                .setAuthor(`${command.name} Command`, message.client.user.avatarURL(), 'https://github.com/lennysgarage/DiscordMemories')
                 .setTimestamp()
                 .setFooter(`Prefix: ${prefix}`);
             data.forEach((usage, i) => {

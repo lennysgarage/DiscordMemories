@@ -35,7 +35,7 @@ module.exports = {
                         • Bot Latency: \`\`${message.createdTimestamp - Date.now()} ms\`\`
                         • Uptime: \`\`${new Date(process.uptime() * 1000).toISOString().substr(11, 8)}\`\`
                         • Ram: \`\`${(process.memoryUsage.rss() * 0.000001).toFixed(2)} MB\`\`
-                    
+                        • Version: \`\`${pkg.version}\`\`
                     `,
                     inline: true,
                 },

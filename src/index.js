@@ -40,7 +40,7 @@ client.once('ready', () => {
         }
             
         console.log(`Currently servicing ${client.guilds.cache.size} guilds & ${memberCount} users`);
-    }, 600000);
+    }, 3600000);
 });
 
 
@@ -49,7 +49,7 @@ client.on('guildCreate', guild => {
 });
 
 client.on('guildDelete', guild => {
-    console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
+    console.log(`I have been removed from: ${guild.name} (id: ${guild.id}). This guild had ${guild.memberCount} members!`);
 });
 
 

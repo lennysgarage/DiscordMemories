@@ -52,7 +52,7 @@ module.exports = {
                 .setTimestamp()
                 .setFooter(`Prefix: ${prefix}`);
             data.forEach((usage, i) => {
-                commandEmbed.addField(` \`\`${command.name} ${usage}\`\` `, data_desc[i]);
+                commandEmbed.addField(` \`${command.name} ${usage}\` `, data_desc[i]);
                 });
             
             return await message.channel.send({ embeds: [commandEmbed] });;

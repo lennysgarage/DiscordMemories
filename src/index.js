@@ -54,6 +54,16 @@ client.on('guildDelete', guild => {
 
 
 client.on('messageCreate', async message => {
+    /*Bring up help menu if mentioned */
+    if (!message.author.bot && !message.mentions.everyone && message.mentions.has(client.user)) {
+        try { 
+            client.commands.get('help').execute(message, []);
+        } catch(error) {
+            console.error(error);
+            await message.reply({ content: 'there was an error trying to bring up the help menu!', allowedMentions: { repliedUser: true } });    
+        }
+        return;
+    }
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);

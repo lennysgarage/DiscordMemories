@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, DiscordAPIError } = require('discord.js');
 const { grabChannel } = require('../utils/grabChannel');
 const { shift } = require('../utils/snowflakeUtil');
 const DISCORD_EPOCH = 1420070400000;
@@ -59,6 +59,9 @@ module.exports = {
                 await msgToSend.reply({ content: `${responseMsg}`, allowedMentions: { repliedUser: false } });
             }
         } catch(err) {
+            if (err.code == 50001) {
+                return await message.reply({ content: "I seem to be missing access to view that, try to readd me to the server!", allowedMentions: { repliedUser: false } });
+            }
             console.error(`No message found for ${message.author.tag}.\n`, err);
             await message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });
         }

@@ -5,7 +5,7 @@
 Memories is a discord bot to easily look at past messages in your discord server.
 Similar functionality to Snapchat's Memories feature!
 
-##### Default command prefix: ==
+##### Default command prefix: == (Can also mention the bot to use any of the following commands)
 ---
 ### Functionality
 
@@ -41,6 +41,16 @@ Similar functionality to Snapchat's Memories feature!
     Sends a direct message displaying all commands available.
 * `help memory` 
     Returns information on the memory command.
+    
+#### Info Command
+`info`:
+- Displays information on the bot.
+##### Examples:
+* `info`
+    Showcases bot's current info, including version and prefix.
+    Showcases bot's internal information such as latency, uptime, version, and ram.
+    Showcases analytics of bot, including how many servers and users.
+    Showcases other information pertaining to the running of the bot.
 
 ---
 ###  Add Memories to your server [here](https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot)

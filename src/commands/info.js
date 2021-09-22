@@ -7,6 +7,14 @@ module.exports = {
     usage: [''],
     usage_desc: ['Info/stats on bot'],
     async execute(message, args) {
+        // Grab total member count
+        await message.client.guilds.fetch();
+        let memberCount = 0;
+        for (const guild of message.client.guilds.cache.values()) {
+            memberCount += guild.memberCount;
+        }
+
+
         const infoEmbed = {
             color: '#0099ff',
             title: 'Information:',
@@ -42,7 +50,9 @@ module.exports = {
                 {
                     name: '❯ Analytics:',
                     value: `
-• Users: \`${message.client.users.cache.size}\` 
+• Users:  
+\u00A0\u00A0‣ Cached: \`${message.client.users.cache.size}\` 
+\u00A0\u00A0‣ Total: \`${memberCount}\` 
 • Channels: \`${message.client.channels.cache.size}\`
 • Servers: \`${message.client.guilds.cache.size}\`
                     `,

@@ -29,18 +29,6 @@ client.once('ready', () => {
     client.user.setActivity(`${prefix}help`, { type: 'WATCHING' });
     console.log(`Starting to service ${client.guilds.cache.size} guilds`);
     console.log('Ready!');
-
-
-    setInterval(async () => {
-        // Simplistic get members, includes bot accounts
-        await client.guilds.fetch();
-        let memberCount = 0;
-        for (const guild of client.guilds.cache.values()) {
-            memberCount += guild.memberCount;
-        }
-            
-        console.log(`Currently servicing ${client.guilds.cache.size} guilds & ${memberCount} users`);
-    }, 3600000);
 });
 
 
@@ -82,11 +70,11 @@ client.on('messageCreate', async message => {
     }
 });
 
-/* Default way to start bot 
+/* Simple way to start bot 
 client.login(token);
 */
 
 
-/* If using .env file */
+/* If using .env file (RECOMMENDED) */
 client.login(process.env.BOT_TOKEN);
 

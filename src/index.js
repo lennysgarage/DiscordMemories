@@ -14,8 +14,12 @@ const client = new Client({
 // Comment out when testing
 const ap = AutoPoster(process.env.TOPGG_TOKEN, client);
 
-ap.on('posted', () => {
-    console.log('Posted stats to Top.gg!');
+ap.on('posted', (stats) => {
+    console.log(`Posted stats to Top.gg! | ${stats.serverCount} servers`);
+})
+
+ap.on('error', (err) => {
+    console.log('Topgg API error');
 })
 
 client.commands = new Collection();

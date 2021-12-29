@@ -1,12 +1,12 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { prefix, token } = require('./config.json');
+const { token } = require('./config.json');
 const { AutoPoster } = require('topgg-autoposter');
 
 
 const client = new Client({ 
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES,
-        Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGES],
+         Intents.FLAGS.GUILD_MESSAGES],
     repliedUser: false 
 });
 
@@ -22,6 +22,7 @@ ap.on('error', (err) => {
     console.log('Topgg API error');
 })
 
+
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -29,50 +30,17 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-client.once('ready', () => {
-    client.user.setActivity(`${prefix}help`, { type: 'WATCHING' });
-    console.log(`Starting to service ${client.guilds.cache.size} guilds`);
-    console.log('Ready!');
-});
 
-
-client.on('guildCreate', guild => {
-    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-});
-
-client.on('guildDelete', guild => {
-    console.log(`I have been removed from: ${guild.name} (id: ${guild.id}). This guild had ${guild.memberCount} members!`);
-});
-
-
-client.on('messageCreate', async message => {
-    /* Interact via prefix or mention */
-    if (!message.author.bot && !message.mentions.everyone 
-        && (message.mentions.has(client.user) || message.content.startsWith(prefix))) {
-        /* Command from prefix */
-        let args;
-        if (message.content.startsWith(prefix)) 
-            args = message.content.slice(prefix.length).trim().split(/ +/);
-        else /* Command from mention */
-            args = message.content.slice(client.user.id.length +4).trim().split(/ +/); 
-            // +4 accounts for <@!>
-
-        // Don't want to fire off when just prefix
-        if (!message.mentions.has(client.user) && args[0] == '') return; 
-        const commandName = args.shift().toLowerCase() || 'help'; // Default to help menu
-
-        if (!client.commands.has(commandName)) return; // Check if cmd exists
-        const command = client.commands.get(commandName);
-
-        /* Execute the command */
-        try { 
-            command.execute(message, args);
-        } catch(error) {
-            console.error(error);
-            await message.reply({ content: 'there was an error trying to bring up the help menu!', allowedMentions: { repliedUser: true } });    
-        }
+const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js'));
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args));
     }
-});
+}
+
 
 /* Simple way to start bot 
 client.login(token);

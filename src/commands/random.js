@@ -47,5 +47,7 @@ module.exports = {
             console.error(`No message found for ${message.author.tag}.\n`, err);
             await message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });
         }
+        // Log for error related problems
+        console.log(`Random memory by user ${message.author.username} (${message.author.id}) in channel (${message.channel.id}) in server ${message.guild} (${message.guild.id}) with ${message.guild.memberCount} users`);
     }
 }

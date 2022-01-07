@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
 const { AutoPoster } = require('topgg-autoposter');
 
 
@@ -10,24 +9,21 @@ const client = new Client({
     repliedUser: false 
 });
 
-// Comment this out if not posting bot on top.gg
-// Comment out when testing
-const ap = AutoPoster(process.env.TOPGG_TOKEN, client);
 
-ap.on('posted', (stats) => {
-    console.log(`Posted stats to Top.gg! | ${stats.serverCount} servers`);
-})
-
-ap.on('error', (err) => {
-    console.log('Topgg API error');
-})
-
-
+// chat commmands
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
+}
+
+// slash commands
+client.slashCommands = new Collection();
+const slashCommandFiles = fs.readdirSync('./src/slashcommands').filter(file => file.endsWith('.js'));
+for (const file of slashCommandFiles) {
+    const command = require(`./slashcommands/${file}`);
+    client.slashCommands.set(command.data.name, command);
 }
 
 
@@ -41,12 +37,18 @@ for (const file of eventFiles) {
     }
 }
 
+// Comment out this section if not posting bot on top.gg
+const ap = AutoPoster(process.env.TOPGG_TOKEN, client);
 
-/* Simple way to start bot 
-client.login(token);
-*/
+ap.on('posted', (stats) => {
+    console.log(`Posted stats to Top.gg! | ${stats.serverCount} servers`);
+})
+
+ap.on('error', (err) => {
+    console.log('Topgg API error');
+})
 
 
-/* If using .env file (RECOMMENDED) */
+/* Requires a .env file */
 client.login(process.env.BOT_TOKEN);
 

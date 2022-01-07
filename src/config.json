@@ -3,5 +3,7 @@
     "token": "ENTER-TOKEN",
     "inviteLink": "https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot",
     "voteLink": "https://top.gg/bot/867469054931501078/vote",
-    "supportServer": "https://discord.gg/C4kvrDtYdc"
+    "supportServer": "https://discord.gg/C4kvrDtYdc",
+    "devGuildId": "DEV-GUILDID",
+    "clientId": "BOT-CLIENTID"
 }

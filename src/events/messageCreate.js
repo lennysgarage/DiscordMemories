@@ -27,7 +27,7 @@ module.exports = {
                 command.execute(message, args);
             } catch(error) {
                 console.error(error);
-                await message.reply({ content: 'there was an error trying to bring up the help menu!', allowedMentions: { repliedUser: true } });    
+                await message.reply({ content: 'There was an error trying to bring up the help menu!', allowedMentions: { repliedUser: true } });    
             }
         }
     },

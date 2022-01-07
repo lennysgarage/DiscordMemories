@@ -1,7 +1,7 @@
 {
     "prefix": "==",
     "token": "ENTER-TOKEN",
-    "inviteLink": "https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot",
+    "inviteLink": "https://discord.com/oauth2/authorize?client_id=867469054931501078&permissions=68608&scope=bot%20applications.commands",
     "voteLink": "https://top.gg/bot/867469054931501078/vote",
     "supportServer": "https://discord.gg/C4kvrDtYdc",
     "devGuildId": "DEV-GUILDID",

@@ -16,6 +16,7 @@ module.exports = {
             messages = grabChannel(message, args[0]);
             if (messages === undefined) return; // Don't want to fetch a nonexistent channel
         }
+        
 
         /* Here we are trying to make an artifical discord snowflake.
          * (timestamp_ms - DISCORD_EPOCH) << 22 (timestamp to snowflake)

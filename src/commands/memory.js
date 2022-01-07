@@ -1,4 +1,4 @@
-const { MessageEmbed, DiscordAPIError } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { grabChannel } = require('../utils/grabChannel');
 const { shift } = require('../utils/snowflakeUtil');
 const DISCORD_EPOCH = 1420070400000;
@@ -41,9 +41,9 @@ module.exports = {
 
         let todayPlusOne = shift(message.createdTimestamp - (message.createdTimestamp % 86400000) + 86400000 - DISCORD_EPOCH, 22);
         if (numOfYears < 0 || dateAfter < 0 || dateAfter > todayPlusOne || isNaN(dateAfter) ) {
-            await message.reply({ content: "Invalid date", allowedMentions: { repliedUser: false } });
-            return;
+            return await message.reply({ content: "Invalid date", allowedMentions: { repliedUser: false } });
         } 
+
 
         try {
             const collectionOfMessages = await messages.fetch({ limit: 10, after: dateAfter });

@@ -16,5 +16,5 @@ module.exports = {
         .setFooter(`Prefix: ${prefix}`);
 
         return await message.channel.send({ embeds: [inviteEmbed] });
-    }
-}
+    },
+};

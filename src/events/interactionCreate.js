@@ -1,4 +1,3 @@
-/* FUTURE ADDITION */
 
 module.exports = {
     name: 'interactionCreate',

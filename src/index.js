@@ -4,8 +4,7 @@ const { AutoPoster } = require('topgg-autoposter');
 
 
 const client = new Client({ 
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES,
-         Intents.FLAGS.GUILD_MESSAGES],
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
     repliedUser: false 
 });
 
@@ -18,6 +17,7 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
+
 // slash commands
 client.slashCommands = new Collection();
 const slashCommandFiles = fs.readdirSync('./src/slashcommands').filter(file => file.endsWith('.js'));
@@ -25,7 +25,6 @@ for (const file of slashCommandFiles) {
     const command = require(`./slashcommands/${file}`);
     client.slashCommands.set(command.data.name, command);
 }
-
 
 
 const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js'));

@@ -1,19 +1,23 @@
 {
   "dependencies": {
-    "discord.js": "^12.5.3"
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "topgg-autoposter": "^2.0.0"
   },
   "name": "discordmemories",
   "description": "A simple bot to look at past memories",
-  "version": "1.0.0",
+  "version": "2.6.0",
   "main": "index.js",
   "engines": {
-    "node": "16.*",
+    "node": "^16.6.2",
     "npm": "7.*"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node -r dotenv/config src/index.js"
   },
   "repository": {
     "type": "git",

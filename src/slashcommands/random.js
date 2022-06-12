@@ -44,7 +44,7 @@ module.exports = {
             await interaction.reply({ embeds: [embed] });
         } catch(err) {
             if (err.code == 50001) {
-                return await interaction.reply({ content: "I seem to be missing access to view that, try to readd me to the server!", ephemeral: true });
+                return await interaction.reply({ content: "I seem to be missing access to view this channel!", ephemeral: true });
             }
             console.error(`No message found for ${interaction.user.tag}.\n`, err);
             await interaction.reply({ content: "Can't find a memory ;(", ephemeral: true });

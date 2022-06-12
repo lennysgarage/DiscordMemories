@@ -43,7 +43,7 @@ module.exports = {
             }
         } catch(err) {
             if (err.code == 50001) {
-                return await message.reply({ content: "I seem to be missing access to view that, try to readd me to the server!", allowedMentions: { repliedUser: false } });
+                return await message.reply({ content: "I seem to be missing access to view this channel!", allowedMentions: { repliedUser: false } });
             }
             console.error(`No message found for ${message.author.tag}.\n`, err);
             await message.reply({ content: "Can't find a memory ;(", allowedMentions: { repliedUser: false } });

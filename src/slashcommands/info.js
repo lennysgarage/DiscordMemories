@@ -50,9 +50,7 @@ module.exports = {
                 {
                     name: '❯ Analytics:',
                     value: `
-• Users:  
-\u00A0\u00A0‣ Cached: \`${interaction.client.users.cache.size}\` 
-\u00A0\u00A0‣ Total: \`${memberCount}\` 
+• Users: \`${memberCount}\`
 • Channels: \`${interaction.client.channels.cache.size}\`
 • Servers: \`${interaction.client.guilds.cache.size}\`
                     `,

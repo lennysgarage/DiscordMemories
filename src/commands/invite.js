@@ -8,12 +8,12 @@ module.exports = {
     usage_desc: ['Invite link for bot!'],
     async execute(message, args) {
         const inviteEmbed = new MessageEmbed()
-        .setColor('#0099ff')
-        .setAuthor('Invite Bot', message.client.user.avatarURL(), inviteLink)
-        .addFields(
-            { name: 'Click Below', value: `[Invite Me!](${inviteLink})` })
-        .setTimestamp()
-        .setFooter(`Prefix: ${prefix}`);
+            .setColor('#0099ff')
+            .setAuthor({ name: 'Invite Bot', iconURL: message.client.user.avatarURL(), name: inviteLink })
+            .addFields(
+                { name: 'Click Below', value: `[Invite Me!](${inviteLink})` })
+            .setTimestamp()
+            .setFooter({ text: `Prefix: ${prefix}` });
 
         return await message.channel.send({ embeds: [inviteEmbed] });
     },

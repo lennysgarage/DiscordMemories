@@ -72,7 +72,10 @@ module.exports = {
             ],
         };
 
-
-        await interaction.reply({ embeds: [infoEmbed] });
+        try {
+            await interaction.reply({ embeds: [infoEmbed] });
+        } catch (err) {
+            console.log("Failed to send embed", err)
+        }
     },
 };

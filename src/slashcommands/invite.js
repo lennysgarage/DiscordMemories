@@ -8,12 +8,12 @@ module.exports = {
         .setDescription('Invite link for Memories Bot!'),
     async execute(interaction) {
         const inviteEmbed = new MessageEmbed()
-        .setColor('#0099ff')
-        .setAuthor('Invite Bot', interaction.client.user.avatarURL(), inviteLink)
-        .addFields(
-            { name: 'Click Below', value: `[Invite Me!](${inviteLink})` })
-        .setTimestamp()
-        .setFooter(`Prefix: ${prefix}`);
+            .setColor('#0099ff')
+            .setAuthor({ name: 'Invite Bot', iconURL: interaction.client.user.avatarURL(), url: inviteLink })
+            .addFields(
+                { name: 'Click Below', value: `[Invite Me!](${inviteLink})` })
+            .setTimestamp()
+            .setFooter({ text: `Prefix: ${prefix}` });
 
         return await interaction.reply({ embeds: [inviteEmbed] });
     },

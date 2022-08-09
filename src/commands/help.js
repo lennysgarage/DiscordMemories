@@ -11,29 +11,29 @@ module.exports = {
 
         if (!args.length) {
             const helpEmbed = new MessageEmbed()
-            .setColor('#0099ff')
-            .setAuthor('Help Menu', message.client.user.avatarURL(), 'https://github.com/lennysgarage/DiscordMemories')
-            .setThumbnail(message.client.user.avatarURL())
-            .addFields(
-                { name: 'Prefix: ```==```', value:`[Invite Me!](${inviteLink}) | [Vote Here!](${voteLink}) | [Support Server](${supportServer})`},
-                { name: 'Memory Command', value: '\u200b' },
-                { name: '```memory [channel|ID] [date|numOfYears]```', value: '- Showcases a memory from any user' },
-                { name: '```memory```', value: '- Showcases a memory from a year ago' },
-                { name: '```memory general```', value: '- Showcases a memory from the general channel a year ago' },
-                { name: '```memory general 2019-05-05```', value: '- Showcases a memory from general around May 5th, 2019' },
-                { name: '```memory general 3.14159```', value: '- Showcases a memory from general ~pi years ago' },
-                { name: '\u200b', value: '\u200B' },
-                { name: 'Random Command', value: '\u200b'},
-                { name: '```random [channel|ID]```', value: '- Showcases a random memory from any user' },
-                { name: '```random```', value: '- Showcases a random memory' },
-                { name: '```random general```', value: '- Showcases a random memory from general' },
-                { name: '\u200b', value: '\u200B' },
-                { name: 'Invite bot', value: `${prefix}invite`, inline: true },
-                { name: 'Info/Stats', value: `${prefix}info`, inline: true },
-            )
-            .setTimestamp()
-            .setFooter(`${prefix}help [command] to get info on a specific command`, message.client.user.avatarURL());
-                
+                .setColor('#0099ff')
+                .setAuthor({ name: 'Help Menu', iconURL: message.client.user.avatarURL(), url: 'https://github.com/lennysgarage/DiscordMemories' })
+                .setThumbnail(message.client.user.avatarURL())
+                .addFields(
+                    { name: 'Prefix: ```==```', value: `[Invite Me!](${inviteLink}) | [Vote Here!](${voteLink}) | [Support Server](${supportServer})` },
+                    { name: 'Memory Command', value: '\u200b' },
+                    { name: '```memory [channel|ID] [date|numOfYears]```', value: '- Showcases a memory from any user' },
+                    { name: '```memory```', value: '- Showcases a memory from a year ago' },
+                    { name: '```memory general```', value: '- Showcases a memory from the general channel a year ago' },
+                    { name: '```memory general 2019-05-05```', value: '- Showcases a memory from general around May 5th, 2019' },
+                    { name: '```memory general 3.14159```', value: '- Showcases a memory from general ~pi years ago' },
+                    { name: '\u200b', value: '\u200B' },
+                    { name: 'Random Command', value: '\u200b' },
+                    { name: '```random [channel|ID]```', value: '- Showcases a random memory from any user' },
+                    { name: '```random```', value: '- Showcases a random memory' },
+                    { name: '```random general```', value: '- Showcases a random memory from general' },
+                    { name: '\u200b', value: '\u200B' },
+                    { name: 'Invite bot', value: `${prefix}invite`, inline: true },
+                    { name: 'Info/Stats', value: `${prefix}info`, inline: true },
+                )
+                .setTimestamp()
+                .setFooter({ text: `${prefix}help [command] to get info on a specific command`, iconURL: message.client.user.avatarURL() });
+
             return await message.channel.send({ embeds: [helpEmbed] });
         }
 
@@ -48,13 +48,13 @@ module.exports = {
             const data_desc = command.usage_desc;
             const commandEmbed = new MessageEmbed()
                 .setColor('#0099ff')
-                .setAuthor(`${command.name} Command`, message.client.user.avatarURL(), 'https://github.com/lennysgarage/DiscordMemories')
+                .setAuthor({ name: `${command.name} Command`, iconURL: message.client.user.avatarURL(), url: 'https://github.com/lennysgarage/DiscordMemories' })
                 .setTimestamp()
-                .setFooter(`Prefix: ${prefix}`);
+                .setFooter({ text: `Prefix: ${prefix}` });
             data.forEach((usage, i) => {
-                commandEmbed.addField(` \`${command.name} ${usage}\` `, data_desc[i]);
-                });
-            
+                commandEmbed.addField({ name: ` \`${command.name} ${usage}\` `, value: data_desc[i] });
+            });
+
             return await message.channel.send({ embeds: [commandEmbed] });;
         }
     }

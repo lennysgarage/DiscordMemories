@@ -50,8 +50,8 @@ module.exports = {
             /* Here we check for the actual timestamp of the msg */
             const msgToSend = collectionOfMessages.random();
             const timeOfMsg = ((new Date().getTime() - msgToSend.createdTimestamp)/31535900000).toFixed(8);
-            const responseMsg = (timeOfMsg > 1 || timeOfMsg < 1) ? `Hey checkout this memory from ${timeOfMsg} years ago!` : 
-            "Hey checkout this memory from a year ago!";
+            const responseMsg = (timeOfMsg > 1 || timeOfMsg < 1) ? `Hey check out this memory from ${timeOfMsg} years ago!` : 
+            "Hey check out this memory from a year ago!";
             if (args[0]) {
                 const embed = new MessageEmbed().setTitle(responseMsg).setURL(msgToSend.url);
                 await message.channel.send({ embeds: [embed] });

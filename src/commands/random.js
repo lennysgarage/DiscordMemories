@@ -47,7 +47,7 @@ module.exports = {
 
         // If trying to grab a date in backwards order, just rearrange silently.
         if (startNumOfYears < endNumOfYears) {
-            startNumOfYears, endNumOfYears = endNumOfYears, startNumOfYears;
+            [startNumOfYears, endNumOfYears] = [endNumOfYears, startNumOfYears];
         }
 
 

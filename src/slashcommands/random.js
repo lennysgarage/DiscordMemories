@@ -35,7 +35,7 @@ module.exports = {
 
 
         let startNumOfYears = 0; // Default behaviour
-        let endNumOfYears = maxNumOfYears;
+        let endNumOfYears = maxNumOfYears - 3; // keep the default range between the last 4 years, as many channels aren't that old
         /* Can specify when to find a memory from */
         /* Can enter a date or just how long ago */
         if (startDate !== null) {
@@ -55,7 +55,7 @@ module.exports = {
 
 
         if (startNumOfYears < 0 || endNumOfYears < 0 || isNaN(startNumOfYears) || isNaN(endNumOfYears)) {
-            return await interaction.reply({ content: "Invalid date", ephemeral: true})
+            return await interaction.reply({ content: "Invalid date", ephemeral: true })
         }
 
         // Cannot grab a date from before discord existed. Using time in years not DISCORD_EPOCH.

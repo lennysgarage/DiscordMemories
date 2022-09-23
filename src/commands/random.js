@@ -12,13 +12,13 @@ module.exports = {
     async execute(message, args) {
         let messages = message.channel.messages;
         /* Can specify channel by name or id */
-        if (args[0]){
+        if (args[0]) {
             messages = grabChannel(message, args[0]);
             if (messages === undefined) return; // Don't want to fetch a nonexistent channel
         }
-        
+
         let startNumOfYears = 0; // Default behaviour
-        let endNumOfYears = maxNumOfYears;
+        let endNumOfYears = maxNumOfYears - 3; // keep the default range between the last 4 years, as many channels aren't that old
         /* Can specify when to find a memory from */
         /* Can enter a date or just how long ago */
         if (args[1]) {
@@ -38,7 +38,7 @@ module.exports = {
 
 
         if (startNumOfYears < 0 || endNumOfYears < 0 || isNaN(startNumOfYears) || isNaN(endNumOfYears)) {
-            return await message.reply({ content: "Invalid date", ephemeral: true})
+            return await message.reply({ content: "Invalid date", ephemeral: true })
         }
 
         // Cannot grab a date from before discord existed. Using time in years not DISCORD_EPOCH.
@@ -64,9 +64,9 @@ module.exports = {
         let max = message.createdTimestamp - (DISCORD_EPOCH + (31556926000 * endNumOfYears)); // Start of today
         let rand = Math.floor(Math.random() * (max - min) + min);
 
-        
+
         let randomDate = shift(rand, 22);
-        
+
         try {
             const collectionOfMessages = await messages.fetch({ limit: 10, after: randomDate });
             const responseMsg = "Check this out";
@@ -76,7 +76,7 @@ module.exports = {
             } else {
                 await collectionOfMessages.random().reply({ content: `${responseMsg}`, allowedMentions: { repliedUser: false } });
             }
-        } catch(err) {
+        } catch (err) {
             if (err.code == 50001) {
                 return await message.reply({ content: "I seem to be missing access to view this channel!", allowedMentions: { repliedUser: false } });
             }

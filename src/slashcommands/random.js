@@ -1,4 +1,3 @@
-const maxNumOfYears = 7; // Do not go further than the creation of discord (untested)
 const DISCORD_EPOCH = 1420070400000;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
@@ -25,17 +24,18 @@ module.exports = {
         const channel = interaction.options.get('channel');
         const startDate = interaction.options.get('startdate');
         const endDate = interaction.options.get('enddate');
+        let maxNumOfYears = ((interaction.createdTimestamp - interaction.channel.createdTimestamp) / 31535900000).toFixed(8);
 
         if (channel !== null) {
             if (channel.channel.type !== 'GUILD_TEXT') {
                 return await interaction.reply({ content: "Channel must be a text channel!", ephemeral: true });
             }
             messages = channel.channel.messages;
+            maxNumOfYears = ((interaction.createdTimestamp - channel.channel.createdTimestamp) / 31535900000).toFixed(8);
         }
 
-
         let startNumOfYears = 0; // Default behaviour
-        let endNumOfYears = maxNumOfYears - 3; // keep the default range between the last 4 years, as many channels aren't that old
+        let endNumOfYears = maxNumOfYears; // set maximum to date of channel creation
         /* Can specify when to find a memory from */
         /* Can enter a date or just how long ago */
         if (startDate !== null) {

@@ -1,4 +1,3 @@
-const maxNumOfYears = 7; // Do not go further than the creation of discord (untested)
 const DISCORD_EPOCH = 1420070400000;
 const { MessageEmbed } = require('discord.js');
 const { grabChannel } = require('../utils/grabChannel');
@@ -11,14 +10,16 @@ module.exports = {
     usage_desc: ['- Showcases a random memory from any user', '- Showcases a random memory', '- Showcases a random memory from general', '- Showcases a random memory from general between Jan 1st, 2021 and May 5th, 2022'],
     async execute(message, args) {
         let messages = message.channel.messages;
+        let maxNumOfYears = ((message.createdTimestamp - message.channel.createdTimestamp) / 31535900000).toFixed(8);
         /* Can specify channel by name or id */
         if (args[0]) {
             messages = grabChannel(message, args[0]);
             if (messages === undefined) return; // Don't want to fetch a nonexistent channel
+            maxNumOfYears = ((message.createdTimestamp - messages.channel.createdTimestamp) / 31535900000).toFixed(8);
         }
 
         let startNumOfYears = 0; // Default behaviour
-        let endNumOfYears = maxNumOfYears - 3; // keep the default range between the last 4 years, as many channels aren't that old
+        let endNumOfYears = maxNumOfYears; // set maximum to date of channel creation
         /* Can specify when to find a memory from */
         /* Can enter a date or just how long ago */
         if (args[1]) {

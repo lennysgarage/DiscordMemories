@@ -7,13 +7,8 @@ module.exports = {
         .setName('info')
         .setDescription('Info on bot'),
     async execute(interaction) {
-        // Grab total member count
-        await interaction.client.guilds.fetch();
-        let memberCount = 0;
-        for (const guild of interaction.client.guilds.cache.values()) {
-            memberCount += guild.memberCount;
-        }
-
+        await interaction.client.guilds.fetch(); // get updated values
+        const botLatency = Date.now() - interaction.createdTimestamp;
         let infoEmbed = {
             color: '#0099ff',
             title: 'Information:',
@@ -39,7 +34,7 @@ module.exports = {
                 {
                     name: '❯ Bot:',
                     value: `
-• Bot Latency: \`${Date.now() - interaction.createdTimestamp} ms\`
+• Bot Latency: \`${botLatency} ms\`
 • Uptime: \`${new Date(process.uptime() * 1000).toISOString().substr(11, 8)}\`
 • Ram: \`${(process.memoryUsage.rss() * 0.000001).toFixed(2)} MB\`
 • Version: \`${pkg.version}\`
@@ -77,6 +72,12 @@ module.exports = {
             console.log("Failed to send embed", err)
         }
 
+        // Grab total member count
+        let memberCount = 0;
+        for (const guild of interaction.client.guilds.cache.values()) {
+            memberCount += guild.memberCount;
+        }
+
         // Update embed with Analytics information.
         infoEmbed = {
             color: '#0099ff',
@@ -103,7 +104,7 @@ module.exports = {
                 {
                     name: '❯ Bot:',
                     value: `
-• Bot Latency: \`${Date.now() - interaction.createdTimestamp} ms\`
+• Bot Latency: \`${botLatency} ms\`
 • Uptime: \`${new Date(process.uptime() * 1000).toISOString().substr(11, 8)}\`
 • Ram: \`${(process.memoryUsage.rss() * 0.000001).toFixed(2)} MB\`
 • Version: \`${pkg.version}\`

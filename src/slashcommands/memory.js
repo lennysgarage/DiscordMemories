@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { shift } = require('../utils/snowflakeUtil');
+const { calcDate } = require('../utils/calcDate');
 const DISCORD_EPOCH = 1420070400000;
 
 module.exports = {
@@ -58,9 +59,7 @@ module.exports = {
             const collectionOfMessages = await messages.fetch({ limit: 10, after: dateAfter });
             /* Here we check for the actual timestamp of the msg */
             const msgToSend = collectionOfMessages.random();
-            const timeOfMsg = ((new Date().getTime() - msgToSend.createdTimestamp) / 31535900000).toFixed(8);
-            const responseMsg = (timeOfMsg > 1 || timeOfMsg < 1) ? `Hey check out this memory from ${timeOfMsg} years ago!` :
-                "Hey check out this memory from a year ago!";
+            const responseMsg = `Hey check out this memory from ${calcDate((msgToSend.createdTimestamp))}`;
             const embed = new MessageEmbed().setTitle(responseMsg).setURL(msgToSend.url);
             await interaction.reply({ embeds: [embed] });
         } catch (err) {

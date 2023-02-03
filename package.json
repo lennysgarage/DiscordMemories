@@ -9,7 +9,7 @@
   },
   "name": "discordmemories",
   "description": "A simple bot to look at past memories",
-  "version": "2.10.0",
+  "version": "2.10.1",
   "main": "index.js",
   "engines": {
     "node": "^16.14.2",

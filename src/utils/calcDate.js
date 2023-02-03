@@ -5,11 +5,18 @@ module.exports = {
         let years = Math.floor(difference / 365.25);
         let days = Math.floor(difference % 365.25); 
 
-        if (years > 0) {
-            return years + " Years " + days + " Days ago!";
-        } else {
-            return days + " Days ago!";
+        let msg = "";
+        if (days !== 0) {
+            msg = days + " Days ";
         }
+
+        if (years === 1) {
+            msg = years + " Year " + msg;
+        } else if (years > 1) {
+            msg = years + " Years " + msg;
+        } 
+
+        return msg + "ago!";
     }
 }
 

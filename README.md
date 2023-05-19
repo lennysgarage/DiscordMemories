@@ -18,7 +18,7 @@ Similar functionality to Snapchat's Memories feature!
 * `memory` 
     Showcases a memory from any user a year ago.
 * `memory general` 
-    Showcases a memory from the channel `general` one year ago.
+    Showcases a memory from the channel `general` around one year ago.
 * `memory general 2019-05-05` 
     Showcases a memory from the channel `general` around May 5th, 2019.
 * `memory general 3.14159` 
@@ -30,9 +30,9 @@ Similar functionality to Snapchat's Memories feature!
 - Showcases a random memory from any user.
 ##### Examples:
 * `random` 
-    Showcases a random memory from as far back as 4 years.   
+    Showcases a random memory from as far back as the channel's age.   
 * `random general` 
-    Showcases a random memory from the channel `general` as far back as 4 years.
+    Showcases a random memory from the channel `general` as far back as `general`'s age.
 * `random general Jan 1 2021 May 5 2022`
     Showcases a random memory from the channel `general` between Jan 1st, 2021 and May 5th, 2022
         

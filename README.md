@@ -18,7 +18,7 @@ Similar functionality to Snapchat's Memories feature!
 * `memory` 
     Showcases a memory from any user a year ago.
 * `memory general` 
-    Showcases a memory from the general channel a year ago.
+    Showcases a memory from the channel `general` one year ago.
 * `memory general 2019-05-05` 
     Showcases a memory from the channel `general` around May 5th, 2019.
 * `memory general 3.14159` 

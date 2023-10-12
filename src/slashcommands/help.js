@@ -35,16 +35,18 @@ module.exports = {
                     { name: '```memory general 3.14159```', value: '- Showcases a memory from general ~pi years ago' },
                     { name: '\u200b', value: '\u200B' },
                     { name: 'Random Command', value: '\u200b' },
-                    { name: '```random [channel|ID] [startDate|minNumOfYears] [endDate|maxNumOfYears]```', value: '- Showcases a random memory from any user' },
+                    { name: '```random [channel|ID] [user] [startDate|minNumOfYears] [endDate|maxNumOfYears]```', value: '- Showcases a random memory from any user' },
                     { name: '```random```', value: '- Showcases a random memory' },
                     { name: '```random general```', value: '- Showcases a random memory from general' },
+                    { name: '```random general lennysgarage```', value: '- Showcases a random memory from user lennysgarage in channel general' },
                     { name: '```random general Jan 1 2021 May 5 2022```', value: '- Showcases a random memory from general between Jan 1st, 2021 and May 5th, 2022' },
+                    { name: '```random general lennysgarage Jan 1 2021 May 5 2022```', value: '- Showcases a random memory from user lennysgarage in channel general between Jan 1st, 2021 and May 5th, 2022' },
                     { name: '\u200b', value: '\u200B' },
-                    { name: 'Invite bot', value: `${prefix}invite`, inline: true },
-                    { name: 'Info/Stats', value: `${prefix}info`, inline: true },
+                    { name: 'Invite bot', value: `/invite`, inline: true },
+                    { name: 'Info/Stats', value: `/info`, inline: true },
                 )
                 .setTimestamp()
-                .setFooter({ text: `${prefix}help [command] to get info on a specific command`, iconURL: interaction.client.user.avatarURL() });
+                .setFooter({ text: `/help [command] to get info on a specific command`, iconURL: interaction.client.user.avatarURL() });
 
             return await interaction.reply({ embeds: [helpEmbed] });
         }

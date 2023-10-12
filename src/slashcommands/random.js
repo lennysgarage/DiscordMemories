@@ -1,6 +1,6 @@
 const DISCORD_EPOCH = 1420070400000;
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Collection } = require('discord.js');
 const { shift } = require('../utils/snowflakeUtil');
 
 module.exports = {
@@ -11,6 +11,10 @@ module.exports = {
             option
                 .setName('channel')
                 .setDescription('Random memory from a specific channel'))
+    .addUserOption(option => 
+        option
+            .setName('user')
+            .setDescription('User to find a message from'))
         .addStringOption(option =>
             option
                 .setName('startdate')
@@ -25,6 +29,8 @@ module.exports = {
         const startDate = interaction.options.get('startdate');
         const endDate = interaction.options.get('enddate');
         let maxNumOfYears = ((interaction.createdTimestamp - interaction.channel.createdTimestamp) / 31535900000).toFixed(8);
+
+        let user = interaction.options.get('user');
 
         if (channel !== null) {
             if (channel.channel.type !== 'GUILD_TEXT') {
@@ -84,9 +90,27 @@ module.exports = {
         let randomDate = shift(rand, 22);
 
         try {
-            const collectionOfMessages = await messages.fetch({ limit: 10, after: randomDate });
-            const embed = new MessageEmbed().setTitle("Check this out").setURL(collectionOfMessages.random().url);
-            await interaction.reply({ embeds: [embed] });
+            if (user === null) {
+                const collectionOfMessages = await messages.fetch({ limit: 10, after: randomDate });
+                const embed = new MessageEmbed().setTitle("Check this out").setURL(collectionOfMessages.random().url);
+                return await interaction.reply({ embeds: [embed] });
+            }
+
+            i = 0
+            let filteredMessages = new Collection();
+            while (filteredMessages.size === 0 && i < 3){
+                const collectionOfMessages = await messages.fetch({ limit: 10+(i*30), after: randomDate });
+    
+                filteredMessages = collectionOfMessages.filter(element => {
+                    return element.author.id === user.user.id
+                });
+                if (filteredMessages.size !== 0){
+                    const embed = new MessageEmbed().setTitle("Check this out").setURL(filteredMessages.random().url);
+                    return await interaction.reply({ embeds: [embed] });
+                }
+                i++;
+            }
+            return await interaction.reply({ content: "Failed to find a message from that user.", ephemeral: true });
         } catch (err) {
             if (err.code == 50001) {
                 return await interaction.reply({ content: "I seem to be missing access to view this channel!", ephemeral: true });

@@ -6,11 +6,25 @@ const { shift } = require('../utils/snowflakeUtil');
 module.exports = {
     name: 'random',
     description: 'Grab any random message from the past',
-    usage: ['[channel | ID]', '', 'general', 'general Jan 1 2021 May 5 2022'],
-    usage_desc: ['- Showcases a random memory from any user', '- Showcases a random memory', '- Showcases a random memory from general', '- Showcases a random memory from general between Jan 1st, 2021 and May 5th, 2022'],
+    usage: ['[channel | ID] [user] [startDate | minNumOfYears] [endDate | maxNumOfYears] ', 
+    '', 
+    'general', 
+    'general lennysgarage', 
+    'general Jan 1 2021 May 5 2022', 
+    'general lennysgarage Jan 1 2021 May 5 2022'],
+    usage_desc: ['- Showcases a random memory from any user', 
+    '- Showcases a random memory', 
+    '- Showcases a random memory from general', 
+    '- Showcases a random memory from user lennysgarage in channel general', 
+    '- Showcases a random memory from general between Jan 1st, 2021 and May 5th, 2022',
+    '- Showcases a random memory from user lennysgarage in channel general between Jan 1st, 2021 and May 5th, 2022'],
     async execute(message, args) {
         let messages = message.channel.messages;
         let maxNumOfYears = ((message.createdTimestamp - message.channel.createdTimestamp) / 31535900000).toFixed(8);
+        const channel = args[0];
+        const startDate = args[1];
+        const endDate = args[2];
+        
         /* Can specify channel by name or id */
         if (args[0]) {
             messages = grabChannel(message, args[0]);
@@ -22,16 +36,16 @@ module.exports = {
         let endNumOfYears = maxNumOfYears; // set maximum to date of channel creation
         /* Can specify when to find a memory from */
         /* Can enter a date or just how long ago */
-        if (args[1]) {
-            if (!isNaN(args[1])) startNumOfYears = parseFloat(args[1]).toFixed(8);
-            else startNumOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(args[1]).getTime()) / 31535900000).toFixed(8);
+        if (startDate) {
+            if (!isNaN(startDate)) startNumOfYears = parseFloat(startDate).toFixed(8);
+            else startNumOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(startDate).getTime()) / 31535900000).toFixed(8);
             // 8 Digits allow for better accuracy when dealing with miliseconds
             // We grab the current time subtracting the number of miliseconds currently in the day to get the earliest moment
             // We take this time divided by roughly how many miliseconds in a year
         }
-        if (args[2]) {
-            if (!isNaN(args[2])) endNumOfYears = parseFloat(args[2]).toFixed(8);
-            else endNumOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(args[2]).getTime()) / 31535900000).toFixed(8);
+        if (endDate) {
+            if (!isNaN(endDate)) endNumOfYears = parseFloat(endDate).toFixed(8);
+            else endNumOfYears = ((message.createdTimestamp - (message.createdTimestamp % 86400000) - new Date(endDate).getTime()) / 31535900000).toFixed(8);
             // 8 Digits allow for better accuracy when dealing with miliseconds
             // We grab the current time subtracting the number of miliseconds currently in the day to get the earliest moment
             // We take this time divided by roughly how many miliseconds in a year
@@ -65,13 +79,12 @@ module.exports = {
         let max = message.createdTimestamp - (DISCORD_EPOCH + (31556926000 * endNumOfYears)); // Start of today
         let rand = Math.floor(Math.random() * (max - min) + min);
 
-
         let randomDate = shift(rand, 22);
 
         try {
             const collectionOfMessages = await messages.fetch({ limit: 10, after: randomDate });
             const responseMsg = "Check this out";
-            if (args[0]) {
+            if (channel) {
                 const embed = new MessageEmbed().setTitle(responseMsg).setURL(collectionOfMessages.random().url);
                 await message.channel.send({ embeds: [embed] });
             } else {

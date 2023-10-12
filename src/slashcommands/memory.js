@@ -55,6 +55,8 @@ module.exports = {
         }
 
 
+        // Log for error related problems
+        console.log(`Memory from ${numOfYears} years ago by user ${interaction.user.username} (${interaction.user.id}) in channel (${interaction.channel.id}) in server ${interaction.guild} (${interaction.guild.id}) with ${interaction.guild.memberCount} users`);
         try {
             const collectionOfMessages = await messages.fetch({ limit: 10, after: dateAfter });
             /* Here we check for the actual timestamp of the msg */
@@ -69,8 +71,6 @@ module.exports = {
             console.error(`No message found for ${interaction.user.tag}.\n`, err);
             await interaction.reply({ content: "Can't find a memory ;(", ephemeral: true });
         }
-        // Log for error related problems
-        console.log(`Memory from ${numOfYears} years ago by user ${interaction.user.username} (${interaction.user.id}) in channel (${interaction.channel.id}) in server ${interaction.guild} (${interaction.guild.id}) with ${interaction.guild.memberCount} users`);
     },
 };
 

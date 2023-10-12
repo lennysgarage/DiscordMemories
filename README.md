@@ -2,7 +2,7 @@
 <img src="https://cdn.discordapp.com/avatars/867469054931501078/bf64ca402609e37b2db3f9395a652abd.webp" width=180 height=180>
 
 ### Introduction
-Memories is a discord bot to easily look at past messages in your discord server.
+Memories is a Discord bot to easily look at past messages in your Discord server.
 Similar functionality to Snapchat's Memories feature!
 
 ##### Default command prefix: == 
@@ -26,15 +26,19 @@ Similar functionality to Snapchat's Memories feature!
     
     
 #### Random Command
-`random [channel|ID] [startDate|minNumOfYears] [endDate|maxNumOfYears]`:
+`random [channel|ID] [user] [startDate|minNumOfYears] [endDate|maxNumOfYears]`:
 - Showcases a random memory from any user.
 ##### Examples:
 * `random` 
     Showcases a random memory from as far back as the channel's age.   
 * `random general` 
-    Showcases a random memory from the channel `general` as far back as `general`'s age.
+    Showcases a random memory from the channel `general` as far back as the creation of the channel.
+* `random general lennysgarage`
+    Showcases a random memory from user `lennysgarage` in the channel `general` as far back as the creation of the channel. 
 * `random general Jan 1 2021 May 5 2022`
-    Showcases a random memory from the channel `general` between Jan 1st, 2021 and May 5th, 2022
+    Showcases a random memory from the channel `general` between Jan 1st, 2021 and May 5th, 2022.
+* `random general lennysgarage Jan 1 2021 May 5 2022`
+    Showcases a random memory from user `lennysgarage` in the channel `general` between Jan 1st, 2021 and May 5th, 2022.
         
 #### Help Command
 `help [command]`:

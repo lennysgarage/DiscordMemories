@@ -23,8 +23,6 @@ module.exports = {
 • ID: \`${interaction.client.user.id}\`
 • Creation Date: \`${interaction.client.user.createdAt}\`
 • Prefix: \`${prefix}\`
-• Discord.js: \`${pkg.dependencies['discord.js']}\`
-• Node: \`${process.version}\` 
                     `,
                 },
                 {
@@ -93,8 +91,6 @@ module.exports = {
 • ID: \`${interaction.client.user.id}\`
 • Creation Date: \`${interaction.client.user.createdAt}\`
 • Prefix: \`${prefix}\`
-• Discord.js: \`${pkg.dependencies['discord.js']}\`
-• Node: \`${process.version}\` 
                     `,
                 },
                 {

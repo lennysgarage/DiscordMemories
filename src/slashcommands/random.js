@@ -33,11 +33,16 @@ module.exports = {
         let user = interaction.options.get('user');
 
         if (channel !== null) {
-            if (channel.channel.type !== 'GUILD_TEXT') {
+            if (channel.channel.type !== 'GUILD_TEXT' && channel.channel.type !== 'GUILD_CATEGORY') {
                 return await interaction.reply({ content: "Channel must be a text channel!", ephemeral: true });
             }
-            messages = channel.channel.messages;
-            maxNumOfYears = ((interaction.createdTimestamp - channel.channel.createdTimestamp) / 31535900000).toFixed(8);
+            let chn = channel.channel;
+            if (channel.channel.type !== 'GUILD_TEXT') {
+                await interaction.client.guilds.fetch();
+                chn = channel.channel.children.random();
+            }
+            messages = chn.messages;
+            maxNumOfYears = ((interaction.createdTimestamp - chn.createdTimestamp) / 31535900000).toFixed(8);
         }
 
         let startNumOfYears = 0; // Default behaviour

@@ -22,10 +22,15 @@ module.exports = {
         const time = interaction.options.get('date');
 
         if (channel !== null) {
-            if (channel.channel.type !== 'GUILD_TEXT') {
+            if (channel.channel.type !== 'GUILD_TEXT' && channel.channel.type !== 'GUILD_CATEGORY') {
                 return await interaction.reply({ content: "Channel must be a text channel!", ephemeral: true });
             }
-            messages = channel.channel.messages;
+            let chn = channel.channel;
+            if (channel.channel.type !== 'GUILD_TEXT') {
+                await interaction.client.guilds.fetch();
+                chn = channel.channel.children.random();
+            }
+            messages = chn.messages;
         }
 
         let numOfYears = 1; // Default behaviour

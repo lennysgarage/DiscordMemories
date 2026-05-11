@@ -2,139 +2,115 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { prefix, inviteLink, voteLink, supportServer } = require('../config.json');
 const pkg = require('../../package.json');
 
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('info')
-        .setDescription('Info on bot'),
-    async execute(interaction) {
-        await interaction.client.guilds.fetch(); // get updated values
-        const botLatency = Date.now() - interaction.createdTimestamp;
-        let infoEmbed = {
-            color: '#0099ff',
-            title: 'Information:',
-            thumbnail: {
-                url: interaction.client.user.avatarURL(),
-            },
-            fields: [
-                {
-                    name: '❯ Info:',
-                    value: `
+function buildInfoEmbed(interaction, botLatency, analytics) {
+    return {
+        color: '#0099ff',
+        title: 'Information:',
+        thumbnail: {
+            url: interaction.client.user.avatarURL(),
+        },
+        fields: [
+            {
+                name: '❯ Info:',
+                value: `
 • Name: <@${interaction.client.user.id}> \`(${interaction.client.user.tag})\` 
 • ID: \`${interaction.client.user.id}\`
 • Creation Date: \`${interaction.client.user.createdAt}\`
 • Prefix: \`${prefix}\`
                     `,
-                },
-                {
-                    name: '\u200b',
-                    value: '\u200b',
-                },
-                {
-                    name: '❯ Bot:',
-                    value: `
+            },
+            {
+                name: '\u200b',
+                value: '\u200b',
+            },
+            {
+                name: '❯ Bot:',
+                value: `
 • Bot Latency: \`${botLatency} ms\`
 • Uptime: \`${new Date(process.uptime() * 1000).toISOString().substr(11, 8)}\`
 • Ram: \`${(process.memoryUsage.rss() * 0.000001).toFixed(2)} MB\`
 • Version: \`${pkg.version}\`
                     `,
-                    inline: true,
-                },
-                {
-                    name: '❯ Analytics:',
-                    value: `
-• Users: \`Loading...\`
-• Channels: \`Loading...\`
-• Servers: \`Loading...\`
+                inline: true,
+            },
+            {
+                name: '❯ Analytics:',
+                value: `
+• Users: \`${analytics.users}\`
+• Channels: \`${analytics.channels}\`
+• Servers: \`${analytics.servers}\`
                     `,
-                    inline: true,
-                },
-                {
-                    name: '\u200b',
-                    value: '\u200b',
-                },
-                {
-                    name: '❯ Other:',
-                    value: `
+                inline: true,
+            },
+            {
+                name: '\u200b',
+                value: '\u200b',
+            },
+            {
+                name: '❯ Other:',
+                value: `
 • Developer: <@108038507708141568> lennysgarage#2361
 • Invite: [Click Here](${inviteLink})
 • Vote: [Click Here](${voteLink})
 • Support Server: [Click Here](${supportServer})
                     `
-                }
-            ],
-        };
+            }
+        ],
+    };
+}
 
-        try {
-            await interaction.reply({ embeds: [infoEmbed] });
-        } catch (err) {
-            console.log("Failed to send embed", err)
-        }
+async function updateAnalytics(interaction, botLatency) {
+    try {
+        await interaction.client.guilds.fetch(); // get updated values
 
-        // Grab total member count
         let memberCount = 0;
         for (const guild of interaction.client.guilds.cache.values()) {
             memberCount += guild.memberCount;
         }
 
-        // Update embed with Analytics information.
-        infoEmbed = {
-            color: '#0099ff',
-            title: 'Information:',
-            thumbnail: {
-                url: interaction.client.user.avatarURL(),
-            },
-            fields: [
-                {
-                    name: '❯ Info:',
-                    value: `
-• Name: <@${interaction.client.user.id}> \`(${interaction.client.user.tag})\` 
-• ID: \`${interaction.client.user.id}\`
-• Creation Date: \`${interaction.client.user.createdAt}\`
-• Prefix: \`${prefix}\`
-                    `,
-                },
-                {
-                    name: '\u200b',
-                    value: '\u200b',
-                },
-                {
-                    name: '❯ Bot:',
-                    value: `
-• Bot Latency: \`${botLatency} ms\`
-• Uptime: \`${new Date(process.uptime() * 1000).toISOString().substr(11, 8)}\`
-• Ram: \`${(process.memoryUsage.rss() * 0.000001).toFixed(2)} MB\`
-• Version: \`${pkg.version}\`
-                    `,
-                    inline: true,
-                },
-                {
-                    name: '❯ Analytics:',
-                    value: `
-• Users: \`${memberCount}\`
-• Channels: \`${interaction.client.channels.cache.size}\`
-• Servers: \`${interaction.client.guilds.cache.size}\`
-                    `,
-                    inline: true,
-                },
-                {
-                    name: '\u200b',
-                    value: '\u200b',
-                },
-                {
-                    name: '❯ Other:',
-                    value: `
-• Developer: <@108038507708141568> lennysgarage#2361
-• Invite: [Click Here](${inviteLink})
-• Vote: [Click Here](${voteLink})
-• Support Server: [Click Here](${supportServer})
-                    `
-                }
-            ],
-        };
+        await interaction.editReply({
+            embeds: [buildInfoEmbed(interaction, botLatency, {
+                users: memberCount,
+                channels: interaction.client.channels.cache.size,
+                servers: interaction.client.guilds.cache.size,
+            })],
+        });
+    } catch (err) {
+        console.log("Failed to update reply", err);
+
         try {
-            await interaction.editReply({ embeds: [infoEmbed] });
-        } catch (err) {
-            console.log("Failed to update reply", err)
+            await interaction.editReply({
+                embeds: [buildInfoEmbed(interaction, botLatency, {
+                    users: 'Unavailable',
+                    channels: 'Unavailable',
+                    servers: 'Unavailable',
+                })],
+            });
+        } catch (editErr) {
+            console.log("Failed to mark analytics unavailable", editErr);
         }
+    }
+}
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('info')
+        .setDescription('Info on bot'),
+    async execute(interaction) {
+        const botLatency = Date.now() - interaction.createdTimestamp;
+        const infoEmbed = buildInfoEmbed(interaction, botLatency, {
+            users: 'Loading...',
+            channels: 'Loading...',
+            servers: 'Loading...',
+        });
+
+        try {
+            await interaction.reply({ embeds: [infoEmbed] });
+        } catch (err) {
+            console.log("Failed to send embed", err);
+            return;
+        }
+
+        updateAnalytics(interaction, botLatency);
     },
 };

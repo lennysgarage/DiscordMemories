@@ -12,6 +12,11 @@ module.exports = {
             await command.execute(interaction);
         } catch(error) {
             console.error(error);
+            if (interaction.deferred || interaction.replied) {
+                await interaction.editReply({ content: 'There was an error trying to run that interaction!', embeds: [] });
+                return;
+            }
+
             await interaction.reply({ content: 'There was an error trying to run that interaction!', ephemeral: true });
         }
     },

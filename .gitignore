@@ -4,5 +4,6 @@ node_modules/
 .codex/
 AGENTS.md
 CLAUDE.md
+RUNBOOK.md
 important
 jsconfig.json
